@@ -651,3 +651,25 @@ type TokenHourData @entity {
   # close price USD
   close: BigDecimal!
 }
+
+type TransferToken @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  decimals: Int!
+  # balance
+  balances: [TransferTokenBalance!]! @derivedFrom(field: "token")
+}
+
+type TransferAccount @entity {
+  id: ID!
+  balances: [TransferTokenBalance!]! @derivedFrom(field: "account")
+}
+
+type TransferTokenBalance @entity {
+  id: ID!
+  token: TransferToken!
+  account: TransferAccount!
+  value: BigDecimal!
+  derivedETH: BigDecimal!
+}

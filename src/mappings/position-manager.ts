@@ -166,6 +166,7 @@ export function handleCollect(event: Collect): void {
   savePositionSnapshot(position!, event)
 }
 
+// nonfungiblemanager/transfer
 export function handleTransfer(event: Transfer): void {
   let position = getPosition(event, event.params.tokenId)
 
