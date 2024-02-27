@@ -4,8 +4,8 @@ repository: https://github.com/Uniswap/uniswap-v3-subgraph
 schema:
   file: ./schema.graphql
 graft:
-  base: QmNP4Fad4ier9mq5CVhWLt1rHuEhbnKt4s15BCTY2hHCFw
-  block: 331810
+  base: QmUkrZJFC2vRpook5Axy8DHhF9NkkytXPx4hyvN1ohRiu1
+  block: 535269
 features:
   - nonFatalErrors
 dataSources:
@@ -88,6 +88,10 @@ dataSources:
       abis:
         - name: ERC20
           file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
