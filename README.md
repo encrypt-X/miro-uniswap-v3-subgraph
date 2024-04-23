@@ -1,8 +1,3 @@
-Originally forked to deploy subgraph for zKatana chain with customized GraphQL scheme.
-But we've decided not to support zKatana chain, so made this archived so for now.
-
----
-
 # Uniswap V3 Subgraph
 
 ### Subgraph Endpoint 
