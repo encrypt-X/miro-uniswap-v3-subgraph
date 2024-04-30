@@ -3,20 +3,17 @@ description: Uniswap is a decentralized protocol for automated token exchange on
 repository: https://github.com/Uniswap/uniswap-v3-subgraph
 schema:
   file: ./schema.graphql
-graft:
-  base: QmZeCuoZeadgHkGwLwMeguyqUKz1WPWQYKcKyMCeQqGhsF
-  block: 19470000
 features:
   - nonFatalErrors
   - grafting
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: zkatana
+    network: sei-testnet
     source:
-      address: '0x92A27E62106a52D01Fc04be29f10420a4Be9d5A0'
+      address: '0xbE4ab781EC37AAd4c7B1bB2D7769f97ed715b8Fc'
       abi: Factory
-      startBlock: 125170
+      startBlock: 17593075
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -41,11 +38,11 @@ dataSources:
           handler: handlePoolCreated
   - kind: ethereum/contract
     name: NonfungiblePositionManager
-    network: zkatana
+    network: sei-testnet
     source:
-      address: '0x59e5d64E0e311b9A0216B05FB0C710B06433C5cD'
+      address: '0xef671E3646b9661D98c8c0406dCfEB5184Ae3F2e'
       abi: NonfungiblePositionManager
-      startBlock: 125184
+      startBlock: 17593189
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -74,13 +71,13 @@ dataSources:
           handler: handleTransfer
   - kind: ethereum/contract
     name: ERC20
-    network: zkatana
+    network: sei-testnet
     source:
       abi: ERC20
-      startBlock: 331809
+      startBlock: 17593075
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - TransferAccount
@@ -96,11 +93,11 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/mappings/core.ts
+      file: ./src/mappings/token/index.ts
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: zkatana
+    network: sei-testnet
     source:
       abi: Pool
     mapping:
