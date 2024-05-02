@@ -1,0 +1,37 @@
+name: dev-release
+on:
+  push:
+    branches:
+      - dev
+  
+  # allow manual dispatch on action tab
+  workflow_dispatch:
+permissions:
+  contents: read    # This is required for actions/checkout
+jobs:
+  the-graph-deploy-seidev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - run: yarn install --prefer-offline
+      - run: echo "./node_modules/.bin" >> $GITHUB_PATH
+      - name: build ./subgraph.seidev.yaml
+        run: graph codegen --output-dir src/types/ ./subgraph.seidev.yaml && graph build ./subgraph.seidev.yaml
+      - name: deploy ./subgraph.seidev.yaml
+        run: graph auth --studio ${{ secrets.THEGRAPH_SEIDEV_AUTH_KEY }} && graph deploy --version-label="$(git rev-parse --short HEAD)" --studio encryptx-miro-seidev ./subgraph.seidev.yaml
